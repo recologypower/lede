@@ -141,3 +141,17 @@ define Device/firefly_station-p2
   DEVICE_PACKAGES := kmod-brcmfmac kmod-ata-ahci-platform station-p2-firmware wpad
 endef
 TARGET_DEVICES += firefly_station-p2
+
+#Begin:add by zhaobaoxing for newu two way CPE
+
+define Device/newu_cpe-twoway
+  DEVICE_VENDOR := Newu
+  DEVICE_MODEL := Cpe_Twoway
+  SOC := rk3568
+  UBOOT_DEVICE_NAME := cpe-twoway-rk3568
+  IMAGE/sysupgrade.img.gz := boot-common | boot-script-bin | rockchip-gpt-img | gzip | append-metadata
+  DEVICE_PACKAGES := kmod-brcmfmac kmod-ata-ahci-platform cpe-twoway-firmware wpad
+endef
+TARGET_DEVICES += newu_cpe-twoway
+
+#End:add by zhaobaoxing for newu two way CPE

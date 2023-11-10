@@ -180,6 +180,20 @@ define U-Boot/station-p2-rk3568
   OF_PRE_BUILD:=$(1)
 endef
 
+
+define U-Boot/cpe-twoway-rk3568
+  BUILD_SUBTARGET:=armv8
+  NAME:=CpeTwoWay
+  BUILD_DEVICES:= \
+       newu_cpe-twoway
+  DEPENDS:=+PACKAGE_u-boot-cpe-twoway-rk3568:arm-trusted-firmware-rk3568
+  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rockchip-vendor
+  ATF:=rk3568_bl31_v1.28.elf
+  TPL:=rk3568_ddr_1560MHz_v1.11.bin
+  OF_PRE_BUILD:=$(1)
+endef
+
+
 UBOOT_TARGETS := \
   doornet2-rk3399 \
   fastrhino-r66s-rk3568 \
@@ -194,7 +208,8 @@ UBOOT_TARGETS := \
   nanopi-r2s-rk3328 \
   orangepi-r1-plus-rk3328 \
   orangepi-r1-plus-lts-rk3328 \
-  station-p2-rk3568
+  station-p2-rk3568	\
+  cpe-twoway-rk3568
 
 UBOOT_CONFIGURE_VARS += USE_PRIVATE_LIBGCC=yes
 

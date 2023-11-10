@@ -13,7 +13,7 @@
 
 / {
 	model = "Firefly Station P2";
-	compatible = "firefly,rk3568-roc-pc", "rockchip,rk3568";
+	compatible = "firefly,rk3568-cpe-twoway", "rockchip,rk3568";
 
 	aliases {
 		ethernet0 = &gmac0;
@@ -23,7 +23,7 @@
 	};
 
 	chosen: chosen {
-		stdout-path = "serial2:1500000n8";
+		stdout-path = "serial2:115200n8";
 	};
 
 	gmac0_clkin: external-gmac0-clock {
@@ -785,3 +785,19 @@
 &usb_host1_xhci {
 	status = "okay";
 };
+
+//Begin:add by zhaobaoxing for cpe twoway
+&i2c3 {
+        clock-frequency = <400000>;
+        pinctrl-names = "default";
+        status = "okay";
+};
+
+&uart8{
+       status = "okay";
+       pinctrl-names = "default";
+       pinctrl-0 = <&uart8m1_xfer>;
+};
+
+//End:add by zhaobaoxing for cpe twoway
+
