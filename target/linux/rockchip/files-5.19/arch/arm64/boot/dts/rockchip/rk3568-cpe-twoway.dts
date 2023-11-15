@@ -274,7 +274,7 @@
 };
 
 &hdmi {
-	status = "okay";
+	status = "disabled";
 	avdd-0v9-supply = <&vdda0v9_image>;
 	avdd-1v8-supply = <&vcca1v8_image>;
 };
@@ -588,7 +588,7 @@
 };
 
 &i2s0_8ch {
-	status = "okay";
+	status = "disabled";
 };
 
 &pmu_io_domains {
@@ -648,7 +648,7 @@
 };
 
 &tsadc {
-        status = "okay";
+        status = "disabled";
 };
 
 &uart2 {
@@ -686,7 +686,7 @@
 };
 
 &hdmi_sound {
-	status = "okay";
+	status = "disabled";
 };
 
 &cpu0 {
@@ -723,11 +723,11 @@
 };
 
 &sata2 {
-	status = "okay";
+	status = "disabled";
 };
 
 &pcie30phy {
-	status = "okay";
+	status = "disabled";
 };
 
 &pcie3x2{
@@ -735,7 +735,7 @@
 	pinctrl-0 = <&pcie_reset_h>;
 	reset-gpios = <&gpio2 RK_PD6 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_pcie>;
-	status = "okay";
+	status = "disabled";
 };
 
 &usb2phy0_host {
@@ -754,11 +754,11 @@
 };
 
 &usb2phy0 {
-	status = "okay";
+	status = "disabled";
 };
 
 &usb2phy1 {
-	status = "okay";
+	status = "disabled";
 };
 
 &usb_host0_ehci {
@@ -793,10 +793,28 @@
         status = "okay";
 };
 
-&uart8{
-       status = "okay";
-       pinctrl-names = "default";
-       pinctrl-0 = <&uart8m1_xfer>;
+&uart3 {
+        dma-names = "tx", "rx";
+        pinctrl-names = "default";
+        pinctrl-0 = <&uart3m1_xfer>;
+        status = "okay";
 };
 
+&uart8 {
+	dma-names = "tx", "rx";
+	pinctrl-names = "default";
+       	pinctrl-0 = <&uart8m1_xfer>;
+       	status = "okay";
+};
+
+&spi3 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi3m1_cs0 &spi3m1_pins>;
+	spi_test@00 {
+		compatible = "rockchip,rk-spidev";
+		reg = <0>;
+		spi-max-frequency = <2000000>;
+	};
+};
 //End:add by zhaobaoxing for cpe twoway

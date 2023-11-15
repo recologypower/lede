@@ -13,7 +13,7 @@
 
 / {
 	model = "Firefly Station P2";
-	compatible = "firefly,rk3568-cpe-twoway", "rockchip,rk3568";
+	compatible = "firefly,rk3568-roc-pc", "rockchip,rk3568";
 
 	aliases {
 		ethernet0 = &gmac0;
@@ -793,11 +793,16 @@
         status = "okay";
 };
 
-&uart8{
-       status = "okay";
-       pinctrl-names = "default";
-       pinctrl-0 = <&uart8m1_xfer>;
+&uart8 {
+        dma-names = "tx", "rx";
+        pinctrl-names = "default";
+        pinctrl-0 = <&uart8m1_xfer>;
+        status = "okay";
 };
 
+&spi3 {
+        pinctrl-0 = <&spi3m1_cs0 &spi3m1_pins>;
+        status = "okay";
+};
 //End:add by zhaobaoxing for cpe twoway
 
