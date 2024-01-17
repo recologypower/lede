@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall
-OBJS = bcm5396.o
+OBJS = bcm5396.o bcm53xxdrv.o
 
 all: bcm5396
 

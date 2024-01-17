@@ -247,30 +247,33 @@
 };
 
 &gmac1 {
-	phy-mode = "rgmii";
-	clock_in_out = "input";
+	phy-mode = "sgmii";
+	
+	rockchip,pipegrf = <&pipegrf>;
+	rockchip,xpcs = <&xpcs>;
 
-	snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
-	snps,reset-active-low;
+	//snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
+	//snps,reset-active-low;
 	/* Reset time is 20ms, 100ms for rtl8211f */
-	snps,reset-delays-us = <0 20000 100000>;
+	//snps,reset-delays-us = <0 20000 100000>;
 
-	assigned-clocks = <&cru SCLK_GMAC1_RX_TX>, <&cru SCLK_GMAC1>;
-	assigned-clock-parents = <&cru SCLK_GMAC1_RGMII_SPEED>, <&gmac1_clkin>;
+	assigned-clocks = <&cru SCLK_GMAC1_RX_TX>;
+	assigned-clock-parents = <&gmac1_xpcsclk>;
 
-	pinctrl-names = "default";
-	pinctrl-0 = <&gmac1m1_miim
-		     &gmac1m1_tx_bus2
-		     &gmac1m1_rx_bus2
-		     &gmac1m1_rgmii_clk
-		     &gmac1m1_rgmii_bus
-		     &gmac1m1_clkinout>;
-
-	tx_delay = <0x4f>;
-	rx_delay = <0x26>;
-
-	phy-handle = <&rgmii_phy1>;
+	//pinctrl-names = "default";
+	//pinctrl-0 = <&gmac1m0_miim>;
+	
+	power-domains = <&power RK3568_PD_PIPE>;
+	phys = <&combphy1 PHY_TYPE_SGMII>;
+	//phy-handle = <&sgmii_phy>;
+	//tx_delay = <0xff>;
+        //rx_delay = <0xff>;
 	status = "okay";
+
+	fixed-link {
+		speed = <1000>;
+		full-duplex;
+	};
 };
 
 &hdmi {
@@ -540,6 +543,12 @@
 		};
 	};
 
+	hym8563 {
+                hym8563_int: hym8563-int {
+                        rockchip,pins = <0 RK_PD3 RK_FUNC_GPIO &pcfg_pull_none>;
+                };
+        };
+
 	sdio-pwrseq {
 		wifi_enable_h: wifi-enable-h {
 			rockchip,pins = <3 RK_PD5 RK_FUNC_GPIO &pcfg_pull_none>;
@@ -557,13 +566,13 @@
 			rockchip,pins = <1 RK_PA4 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
-
+/*
 	fusb0_int {
 		fusb0_int: fusb0-int {
 			rockchip,pins = <0 RK_PC1 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
 	};
-
+*/
 
 	pcie {
 		pcie_enable_h: pcie-enable-h {
@@ -714,10 +723,6 @@
 	status = "okay";
 };
 
-&combphy1 {
-	status = "okay";
-};
-
 &combphy2 {
 	status = "okay";
 };
@@ -740,17 +745,17 @@
 
 &usb2phy0_host {
 	phy-supply = <&vcc5v0_host>;
-	status = "okay";
+	status = "disabled";
 };
 
 &usb2phy1_host {
 	phy-supply = <&vcc5v0_host>;
-	status = "okay";
+	status = "disabled";
 };
 
 &usb2phy1_otg {
 	phy-supply = <&vcc5v0_host>;
-	status = "okay";
+	status = "disabled";
 };
 
 &usb2phy0 {
@@ -762,28 +767,28 @@
 };
 
 &usb_host0_ehci {
-	status = "okay";
+	status = "disabled";
 };
 
 &usb_host0_ohci {
-	status = "okay";
+	status = "disabled";
 };
 
 &usb_host0_xhci {
 	extcon = <&usb2phy0>;
-	status = "okay";
+	status = "disabled";
 };
 
 &usb_host1_ehci {
-	status = "okay";
+	status = "disabled";
 };
 
 &usb_host1_ohci {
-	status = "okay";
+	status = "disabled";
 };
 
 &usb_host1_xhci {
-	status = "okay";
+	status = "disabled";
 };
 
 //Begin:add by zhaobaoxing for cpe twoway
@@ -814,7 +819,35 @@
 	spi_test@00 {
 		compatible = "rockchip,rk-spidev";
 		reg = <0>;
-		spi-max-frequency = <2000000>;
+		spi-max-frequency = <1500000>;
+		spi-cpha;
 	};
 };
+
+&i2c5 {
+        status = "okay";
+
+        hym8563: rtc@51 {
+                compatible = "haoyu,hym8563";
+                reg = <0x51>;
+                interrupt-parent = <&gpio0>;
+                interrupts = <RK_PD3 IRQ_TYPE_EDGE_FALLING>;
+                #clock-cells = <0>;
+                clock-frequency = <32768>;
+                clock-output-names = "rtcic_32kout";
+                pinctrl-names = "default";
+                pinctrl-0 = <&hym8563_int>;
+                wakeup-source;
+        };
+};
+
+&combphy1 {
+	rockchip,sgmii-mac-sel = <1>; /* Use gmac0 for sgmii */
+	status = "okay";
+};
+
+&xpcs {
+	status = "okay";
+};
+
 //End:add by zhaobaoxing for cpe twoway
