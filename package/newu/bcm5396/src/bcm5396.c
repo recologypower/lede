@@ -50,6 +50,11 @@ int main(int argc,char** argv)
 	if (argc < 3)
 	{
 		printf("Please enter the correct parameters\r\n");
+		printf("bcm5396  功能 端口号 绑定端口\r\n");
+		printf("功能：\r\n0 --->  查询\r\n1---> 清除\r\n2---> 设置\r\n");
+		printf("例如：查询端口1 VLAN状态\r\nbcm5396 0 1\r\n");
+		printf("清除端口1 VLAN信息\r\nbcm5396 1 1\r\n");
+		printf("设置端口1 VLAN到 端口10\r\nbcm5396 2 1 10\r\n");
 		return -1;
 	}
 	
