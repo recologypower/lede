@@ -798,6 +798,13 @@
         status = "okay";
 };
 
+&uart1 {
+        dma-names = "tx", "rx";
+        pinctrl-names = "default";
+        pinctrl-0 = <&uart1m1_xfer>;
+        status = "okay";
+};
+
 &uart3 {
         dma-names = "tx", "rx";
         pinctrl-names = "default";
