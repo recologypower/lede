@@ -657,7 +657,7 @@
 };
 
 &tsadc {
-        status = "disabled";
+        status = "okay";
 };
 
 &uart2 {
@@ -812,11 +812,25 @@
         status = "okay";
 };
 
+&uart7 {
+        dma-names = "tx", "rx";
+        pinctrl-names = "default";
+        pinctrl-0 = <&uart7m2_xfer>;
+        status = "okay";
+};
+
 &uart8 {
 	dma-names = "tx", "rx";
 	pinctrl-names = "default";
        	pinctrl-0 = <&uart8m1_xfer>;
        	status = "okay";
+};
+
+&uart9 {
+        dma-names = "tx", "rx";
+        pinctrl-names = "default";
+        pinctrl-0 = <&uart9m2_xfer>;
+        status = "okay";
 };
 
 &spi3 {
@@ -829,6 +843,18 @@
 		spi-max-frequency = <1500000>;
 		spi-cpha;
 	};
+};
+
+&spi1 {
+        status = "disabled";
+        pinctrl-names = "default";
+        pinctrl-0 = <&spi1m0_cs1 &spi1m1_pins>;
+        spi_test@00 {
+                compatible = "rockchip,rk-spidev";
+                reg = <0>;
+                spi-max-frequency = <15000000>;
+                //spi-cpha;
+        };
 };
 
 &i2c5 {
@@ -846,6 +872,16 @@
                 pinctrl-0 = <&hym8563_int>;
                 wakeup-source;
         };
+};
+
+&i2c1 {
+	clock-frequency=<400000>;
+	status = "okay";
+	en8851@52 {
+		compatible ="airoha,en8851";
+		reg = <0x52>;
+		status ="okay";
+	};
 };
 
 &combphy1 {
